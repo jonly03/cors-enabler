@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import fetch from "node-fetch";
 
 const app = express();
 
@@ -12,14 +13,14 @@ app.use(cors());
 // key to the api url
 // headers
 app.get("/bypass-cors", function (req, res) {
-  const { key: apiKey, apiUrl: endPoint } = req.body;
+  const { apiKey, apiUrl } = req.body;
 
   let header = {
     "Access-Control-Allow-Origin": "*",
     Authorization: `Bearer ${apiKey}`,
   };
 
-  fetch(endPoint, {
+  fetch(apiUrl, {
     method: "GET",
 
     headers: header,
