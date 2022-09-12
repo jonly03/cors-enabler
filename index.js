@@ -15,6 +15,8 @@ app.use(cors());
 app.get("/bypass-cors", function (req, res) {
   const { apiKey, apiUrl } = req.body;
 
+  console.log(`Api url: ${apiUrl}`);
+
   let header = {
     "Access-Control-Allow-Origin": "*",
     Authorization: `Bearer ${apiKey}`,
@@ -28,7 +30,8 @@ app.get("/bypass-cors", function (req, res) {
     .then((res) => res.json())
     .then((data) => {
       res.send(data);
-    });
+    })
+    .catch((err) => res.send(err));
 });
 
 app.listen(process.env.PORT || 3000);
