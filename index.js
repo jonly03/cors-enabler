@@ -7,13 +7,24 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// https://cors-enabler-ns.herokuapp.com/bypass-cors?apiKey=7WdpoAlKL0j_ELY13HRYgMbruPV-CKw2Ez5dkzjzK7kq5HGUmqIm5PK7zTmhnWyIe8SjsrnuFq9QsI2iq5xOQI5J0V960IdOhdEzPaj3SejU8F8aH5sis43MR4kfY3Yx&apiUrl=https://api.yelp.com/v3/businesses/search?term=restaurants&location=New%20york%20city
+
 // nellysugu.com/bypass-cors?apiKey=&apiUrl=
 // => inputs
 // url to where to get data
 // key to the api url
 // headers
+// {
+//     apiKey: "",
+//     apiUrl: "",
+//     howToUse: {
+//         queryParam: true,
+//         authHeader: false
+//     }
+// }
 app.get("/bypass-cors", function (req, res) {
-  const { apiKey, apiUrl } = req.query;
+  let { apiKey, apiUrl, location } = req.query;
+  // let { apiKey, apiUrl } = req.query;
 
   if (!apiKey || !apiUrl) {
     return res
@@ -28,6 +39,10 @@ app.get("/bypass-cors", function (req, res) {
     Authorization: `Bearer ${apiKey}`,
   };
 
+  if (location) {
+    apiUrl += `&location=${location}`;
+  }
+
   fetch(apiUrl, {
     method: "GET",
 
@@ -40,4 +55,6 @@ app.get("/bypass-cors", function (req, res) {
     .catch((err) => res.send(err));
 });
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Cooking with Crisco");
+});
